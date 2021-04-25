@@ -1,8 +1,10 @@
 package pl.mateuszsitek.DogGo.model;
 
 import com.sun.istack.NotNull;
+import lombok.Data;
 import javax.persistence.*;
 
+@Data
 @Entity
 public class Reservation {
     @Id
@@ -16,7 +18,7 @@ public class Reservation {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "fk_id_borrower")
-    private Users users;
+    private User users;
 
     @NotNull
     private String created_at;
@@ -25,50 +27,11 @@ public class Reservation {
     public Reservation(){
     }
 
-    public Reservation(Advertisement advertisement, Users users, String created_at, String note) {
+    public Reservation(Advertisement advertisement, User users, String created_at, String note) {
         this.advertisement = advertisement;
         this.users = users;
         this.created_at = created_at;
         this.note = note;
     }
 
-    public Long getId_reservation() {
-        return id_reservation;
-    }
-
-    public void setId_reservation(Long id_reservation) {
-        this.id_reservation = id_reservation;
-    }
-
-    public Advertisement getAdvertisement() {
-        return advertisement;
-    }
-
-    public void setAdvertisement(Advertisement advertisement) {
-        this.advertisement = advertisement;
-    }
-
-    public Users getUsers() {
-        return users;
-    }
-
-    public void setUsers(Users users) {
-        this.users = users;
-    }
-
-    public String getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(String created_at) {
-        this.created_at = created_at;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
 }

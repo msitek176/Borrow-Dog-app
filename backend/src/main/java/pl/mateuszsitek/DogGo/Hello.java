@@ -1,10 +1,13 @@
 package pl.mateuszsitek.DogGo;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.*;
+import pl.mateuszsitek.DogGo.model.Advertisement;
+
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
+// FRONTEND TEST
 @RestController
 @CrossOrigin(origins="http://localhost:3000")
 public class Hello {
@@ -13,12 +16,13 @@ public class Hello {
     public String sayHello()  {
         return "hello";
     }
-
+/*
     @GetMapping("/api/users")
     public ArrayList<HashMap<String,String>> advertisement(){
 
         ArrayList<HashMap<String,String>> list = new ArrayList<>();
-
+        Advertisement advertisement =new Advertisement();
+        advertisement.getUsers();
         HashMap<String,String>map=new HashMap<>();
         map.put("name","ala");
         map.put("dayandhour","21 marzec 20:20");
@@ -36,7 +40,7 @@ public class Hello {
 
         return list;
     }
-
+*/
 
 }
 

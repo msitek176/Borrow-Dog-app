@@ -6,4 +6,5 @@ import pl.mateuszsitek.DogGo.model.Role;
 
 @Repository
 public interface RoleRepo extends JpaRepository<Role,Long> {
+    Role findByIdRole(Long idRole);
 }

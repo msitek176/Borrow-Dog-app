@@ -1,8 +1,9 @@
 package pl.mateuszsitek.DogGo.model;
 
+import lombok.Data;
 import javax.persistence.*;
 
-
+@Data
 @Entity
 @Table(name="user_details")
 public class UserDetails {
@@ -16,7 +17,7 @@ public class UserDetails {
 
     @OneToOne
     @JoinColumn(name="user_id", referencedColumnName = "id_user")
-    private Users users;
+    private User users;
 
     public UserDetails(){
     }
@@ -27,43 +28,4 @@ public class UserDetails {
         this.city = city;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getAbout() {
-        return about;
-    }
-
-    public void setAbout(String about) {
-        this.about = about;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public Long getId_user_details() {
-        return id_user_details;
-    }
-
-    public void setId_user_details(Long id_user_details) {
-        this.id_user_details = id_user_details;
-    }
-
-    public Users getUser() {
-        return users;
-    }
-
-    public void setUser(Users users) {
-        this.users = users;
-    }
 }

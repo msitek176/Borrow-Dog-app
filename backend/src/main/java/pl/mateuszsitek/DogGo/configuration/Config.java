@@ -1,9 +1,10 @@
-package pl.mateuszsitek.DogGo;
+package pl.mateuszsitek.DogGo.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 @Configuration
+
 public class Config extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     protected Class<?>[] getRootConfigClasses() {
@@ -19,6 +20,5 @@ public class Config extends AbstractAnnotationConfigDispatcherServletInitializer
     protected String[] getServletMappings() {
         return new String[]{"/"};
     }
-
 
 }
