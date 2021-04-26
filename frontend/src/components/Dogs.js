@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
-import {Button, Col, Container, Image, Jumbotron, Row, Card, CardColumns, Carousel} from "react-bootstrap";
+import '../styles/Dogs.css';
+import { Card, CardColumns} from "react-bootstrap";
 
 export default class Dogs extends Component{
     render(){
         return(
-            <CardColumns>
-                <Card>
-                    <Card.Img variant="top" src="./golden.jpg" />
+            <CardColumns className="animate__animated animate__fadeInUp" >
+                <Card className= "card-shadow">
+                    <div className="overflow">
+                        <Card.Img className="img-scale" variant="top" src="./golden.jpg" />
+                    </div>
                     <Card.Body>
                         <Card.Title>Card title that wraps to a new line</Card.Title>
                         <Card.Text>
@@ -15,7 +18,7 @@ export default class Dogs extends Component{
                         </Card.Text>
                     </Card.Body>
                 </Card>
-                <Card className="p-3">
+                <Card className="p-3 card-shadow">
                     <blockquote className="blockquote mb-0 card-body">
                         <p>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere
@@ -28,20 +31,19 @@ export default class Dogs extends Component{
                         </footer>
                     </blockquote>
                 </Card>
-                <Card>
-                    <Card.Img variant="top" src="./golden.jpg" />
+                <Card className= "card-shadow">
+                    <div className="overflow">
+                    <Card.Img className="img-scale" variant="top" src="./golden.jpg" />
+                    </div>
                     <Card.Body>
-                        <Card.Title>Card title</Card.Title>
+                        <Card.Title>Card title that wraps to a new line</Card.Title>
                         <Card.Text>
-                            This card has supporting text below as a natural lead-in to additional
-                            content.{' '}
+                            This is a longer card with supporting text below as a natural lead-in to
+                            additional content. This content is a little bit longer.
                         </Card.Text>
                     </Card.Body>
-                    <Card.Footer>
-                        <small className="text-muted">Last updated 3 mins ago</small>
-                    </Card.Footer>
                 </Card>
-                <Card  className="text-center p-3">
+                <Card  className="text-center p-3 card-shadow">
                     <blockquote className="blockquote mb-0 card-body">
                         <p>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere
@@ -54,7 +56,7 @@ export default class Dogs extends Component{
                         </footer>
                     </blockquote>
                 </Card>
-                <Card className="text-center">
+                <Card className="text-center card-shadow">
                     <Card.Body>
                         <Card.Title>Card title</Card.Title>
                         <Card.Text>
@@ -66,10 +68,12 @@ export default class Dogs extends Component{
                         </Card.Text>
                     </Card.Body>
                 </Card>
-                <Card>
-                    <Card.Img src="./golden.jpg" />
+                <Card className= "card-shadow">
+                    <div className="overflow">
+                        <Card.Img className="img-scale" src="./golden.jpg" />
+                    </div>
                 </Card>
-                <Card className="text-right">
+                <Card className="text-right card-shadow">
                     <blockquote className="blockquote mb-0 card-body">
                         <p>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere
@@ -82,7 +86,7 @@ export default class Dogs extends Component{
                         </footer>
                     </blockquote>
                 </Card>
-                <Card>
+                <Card className= "card-shadow">
                     <Card.Body>
                         <Card.Title>Card title</Card.Title>
                         <Card.Text>

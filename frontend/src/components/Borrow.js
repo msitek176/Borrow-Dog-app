@@ -4,6 +4,7 @@ import BorrowAdvertisement from "./BorrowAdvertisement";
 import {Container} from "react-bootstrap";
 
 export default class Borrow extends Component{
+
     render(){
         return(
             <Container>

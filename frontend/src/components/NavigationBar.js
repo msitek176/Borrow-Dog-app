@@ -8,6 +8,13 @@ import {faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
 
 export default class NavigationBar extends Component{
     render(){
+
+        let button;
+        if(this.props.user)
+        { button = ( <Link to={'/'} onClick = {() => localStorage.clear()} className="nav-link logout"><FontAwesomeIcon icon={faSignOutAlt}></FontAwesomeIcon></Link>)
+        }else{
+            button = null
+        }
         return (
             <Navbar className="nav" variant="dark">
                 <Link to={""} className="navbar-brand">
@@ -19,10 +26,11 @@ export default class NavigationBar extends Component{
                     <Link to={"lent"} className="nav-link">Lent</Link>
                     <Link to={"borrow"} className="nav-link">Borrow</Link>
                     <Link to={"dogs"} className="nav-link">Dogs</Link>
-                    <Link to={""} className="nav-link logout"><FontAwesomeIcon icon={faSignOutAlt}></FontAwesomeIcon></Link>
+                    {button}
                 </Nav>
             </Navbar>
 
         );
     }
 }
+

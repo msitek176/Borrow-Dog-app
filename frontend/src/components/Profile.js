@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import {Button, Col, Container, Image, Jumbotron, Row, Card, Table, Carousel} from "react-bootstrap";
 
-
 export default class Profile extends Component{
+
     render(){
-        return(
+
+        if(this.props.user){
+            return(
             <Container>
 
                 <Carousel>
@@ -44,7 +46,7 @@ export default class Profile extends Component{
                 </Carousel>
                 <Jumbotron className="content">
                     <Container>
-                        <h1>Imie</h1>
+                        <h2>Hi {this.props.user.name} {this.props.user.surname}</h2>
                     </Container>
                 </Jumbotron>
                 <Card className="border border-light bg-white text-black">
@@ -60,14 +62,17 @@ export default class Profile extends Component{
                             </tr>
                             </thead>
                             <tbody>
-                            <tr align="center">
-                                <td colSpan="6">No advertisement available</td>
-                            </tr>
+
                             </tbody>
                         </Table>
                     </Card.Body>
                 </Card>
             </Container>
         );
+    }
+        else{
+            return(
+            <h2>User not loged in</h2>)
+        }
     }
 }

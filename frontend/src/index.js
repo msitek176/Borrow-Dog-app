@@ -3,6 +3,12 @@ import ReactDOM from 'react-dom';
 import './styles/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import 'animate.css/animate.min.css'
+import axios from 'axios';
+
+
+axios.defaults.baseURL = 'http://localhost:9000/';
+axios.defaults.headers.common['Authorization']= 'Bearer ' + localStorage.getItem('token');
 
 
 ReactDOM.render(
