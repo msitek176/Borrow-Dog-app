@@ -16,7 +16,7 @@ public class UserDetails {
     private String city;
 
     @OneToOne
-    @JoinColumn(name="user_id", referencedColumnName = "id_user")
+    @JoinColumn(name="user_id", referencedColumnName = "id")
     private User users;
 
     public UserDetails(){

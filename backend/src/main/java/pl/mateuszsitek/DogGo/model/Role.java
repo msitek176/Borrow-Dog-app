@@ -1,10 +1,7 @@
 package pl.mateuszsitek.DogGo.model;
 
-import com.sun.istack.NotNull;
 import lombok.Data;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @Entity
@@ -13,20 +10,14 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long idRole;
+    private Integer id;
 
-    @NotNull
-    private String role;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private ERole name;
 
-    @OneToMany(
-            mappedBy = "role",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<User> users = new ArrayList<>();
-
-    public Role(String role) {
-        this.role = role;
+    public Role(ERole name) {
+        this.name = name;
     }
 
     public Role(){

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @EnableJpaRepositories(basePackages="pl.mateuszsitek.DogGo.repository")
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
-@CrossOrigin(origins = { "http://localhost:3000" })
+@CrossOrigin("*")
 public class DogGoApplication  {
 
 	public static void main(String[] args) {

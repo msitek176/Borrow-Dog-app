@@ -4,21 +4,27 @@ import com.sun.istack.NotNull;
 import lombok.Data;
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
-@Table(name="users")
+@Table(name="users",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "email")
+        })
 @Entity
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id_user;
+    private Long id;
 
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "fk_id_role")
-    private Role role;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(	name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     @NotNull
     private String name;
@@ -66,8 +72,7 @@ public class User {
     public User() {
     }
 
-    public User(Role id_role, String name, String surname, String password, String phone_number, String email) {
-        this.role = id_role;
+    public User(String name, String surname, String password, String phone_number, String email) {
         this.name = name;
         this.surname = surname;
         this.password = password;
@@ -78,8 +83,7 @@ public class User {
     @Override
     public String toString() {
         return "Users{" +
-                "id_user=" + id_user +
-                ", id_role='" + role + '\'' +
+                "id_user=" + id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", password='" + password + '\'' +
