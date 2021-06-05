@@ -9,8 +9,22 @@ export default class Borrow extends Component{
 
     state={};
 
+    reserve = (e) => {
+        const id_user = localStorage.getItem("id")
+        const id_adv = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.id;
+        axios.post(`/api/reservation/${id_adv}/${id_user}`).then(
+            res => {
+                console.log(res)
+            },
+            err => {
+                console.log(err)
+            }
+        )
+    }
+
     componentDidMount = () => {
-        axios.get('api/advertisements').then(
+        const id = localStorage.getItem("id")
+        axios.get(`api/advertisementsOthers/${id}`).then(
             res => {
                 this.setState({
                     advertisements:res.data
@@ -65,7 +79,9 @@ export default class Borrow extends Component{
                                             </Row>
                                         </Col>
                                         <Col md={4}>
-                                            <Button variant="warning">Reserve</Button>
+                                            <Button variant="warning"
+                                                    onClick={e => this.reserve(e)}>
+                                                Reserve</Button>
                                         </Col>
                                     </Row>
                                 </Card.Body>

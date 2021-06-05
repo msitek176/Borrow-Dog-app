@@ -5,6 +5,34 @@ import axios from "axios";
 export default class Profile extends Component{
     state={};
 
+    delete = (e) => {
+        const id = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.id;
+        console.log(id);
+        axios.delete(`http://localhost:9000/api/advertisement/${id}`).then(
+            res => {
+                console.log("USUNIETE")
+            },
+            err =>{
+                console.log(err)
+            }
+        );
+
+    }
+
+    cancel = (e) => {
+        const id = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.id;
+        console.log(id);
+        axios.delete(`http://localhost:9000/api/my_reservations/${id}`).then(
+            res => {
+                console.log(res)
+            },
+            err =>{
+                console.log(err)
+            }
+        );
+
+    }
+
     componentDidMount = () => {
         console.log("ID",localStorage.getItem("id"))
         const id = localStorage.getItem("id")
@@ -19,66 +47,160 @@ export default class Profile extends Component{
                 console.log(err)
             }
         );
+
+        axios.get(`api/my_reservations/${id}`).then(
+            res => {
+                this.setState({
+                    reservations:res.data
+                });
+                console.log("ZAREZEROWANE",this.state.reservations);
+            },
+            err => {
+                console.log(err)
+            }
+        );
     }
+    renderReservation = () => {
+        if(this.state.reservations !== undefined){
+            return this.state.reservations.map((reservation)=>
+            {
+                let who = reservation.advertisement.users.email;
+                let start = reservation.start.replace('T',', ');
+                let stop = reservation.stop.replace('T',', ');
+                let imageURL= './uploads/'+reservation.image;
+                return (
+                    <>
+                        <Card className="advertisement" id={reservation.advertisement.id_advertisement}>
+                            <Row >
+                                <Col md={3}>
+                                    <Card.Img variant="top" src={imageURL} height={"190em"}  />
+                                </Col>
+                                <Col md={9}>
+                                    <Card.Body >
+                                        <Row>
+                                            <Col md={8}>
+                                                <Row>
+                                                    <Card.Title>{reservation.dog_name}, {reservation.breed}</Card.Title>
+                                                </Row>
+                                                <Row>
+                                                    <Card.Text>
+                                                        {reservation.description}
+                                                    </Card.Text>
+                                                </Row>
+                                                <Row>
+                                                    <Card.Text>
+                                                        {reservation.voivodeship}, {reservation.city}, {reservation.street}
+                                                    </Card.Text>
+                                                </Row>
+                                                <Row>
+                                                    <Card.Text>
+                                                        From: {start}
+                                                    </Card.Text>
+                                                </Row>
+                                                <Row>
+                                                    <Card.Text>
+                                                        To: {stop}
+                                                    </Card.Text>
+                                                </Row>
+                                                <Row>
+                                                    <Card.Text>
+                                                        Owner: {who}
+                                                    </Card.Text>
+                                                </Row>
+                                            </Col>
+                                            <Col md={4} >
+                                                <Container>
+                                                    <Row>
+                                                        <Button variant="outline-danger" className="mb-3"
+                                                                onClick={e => this.cancel(e)}>
+                                                            Cancel
+                                                        </Button>
+                                                    </Row>
+                                                </Container>
+                                            </Col>
+                                        </Row>
+                                    </Card.Body>
+                                </Col>
+                            </Row>
+                        </Card>
+                    </>
+
+                )
+            })
+        }
+
+
+    }
+
+
     renderAdvertisement = () => {
         if(this.state.advertisements !== undefined){
             return this.state.advertisements.map((advertisement)=>
             {
+                let who = ""
                 let start = advertisement.start.replace('T',', ');
                 let stop = advertisement.stop.replace('T',', ');
                 let imageURL= './uploads/'+advertisement.image;
+                if(advertisement.advertisement.reservation !== null){
+                    who = advertisement.advertisement.reservation.users.email;
+                }
                 return (
-                    <Card className="advertisement" id={advertisement.advertisement.id_advertisement}>
-                        <Row >
-                            <Col md={3}>
-                                <Card.Img variant="top" src={imageURL} height={"190em"}  />
-                            </Col>
-                            <Col md={9}>
-                                <Card.Body >
-                                    <Row>
-                                        <Col md={8}>
-                                            <Row>
-                                                <Card.Title>{advertisement.dog_name}, {advertisement.breed}</Card.Title>
-                                            </Row>
-                                            <Row>
-                                                <Card.Text>
-                                                    {advertisement.description}
-                                                </Card.Text>
-                                            </Row>
-                                            <Row>
-                                                <Card.Text>
-                                                    {advertisement.voivodeship}, {advertisement.city}, {advertisement.street}
-                                                </Card.Text>
-                                            </Row>
-                                            <Row>
-                                                <Card.Text>
-                                                    From: {start}
-                                                </Card.Text>
-                                            </Row>
-                                            <Row>
-                                                <Card.Text>
-                                                    To: {stop}
-                                                </Card.Text>
-                                            </Row>
-                                        </Col>
-                                        <Col md={4} >
-                                            <Container>
-                                                <Row>
-                                                    <Button variant="warning" className="mb-3">Reserve</Button>
-                                                </Row>
-                                                <Row>
-                                                    <Button variant="success" className="mb-3">Success</Button>
-                                                </Row>
-                                                <Row>
-                                                    <Button variant="danger" >Decline</Button>
-                                                </Row>
-                                            </Container>
-                                        </Col>
-                                    </Row>
-                                </Card.Body>
-                            </Col>
-                        </Row>
-                    </Card>
+                   <>
+                       <Card className="advertisement" id={advertisement.advertisement.id_advertisement}>
+                           <Row >
+                               <Col md={3}>
+                                   <Card.Img variant="top" src={imageURL} height={"190em"}  />
+                               </Col>
+                               <Col md={9}>
+                                   <Card.Body >
+                                       <Row>
+                                           <Col md={8}>
+                                               <Row>
+                                                   <Card.Title>{advertisement.dog_name}, {advertisement.breed}</Card.Title>
+                                               </Row>
+                                               <Row>
+                                                   <Card.Text>
+                                                       {advertisement.description}
+                                                   </Card.Text>
+                                               </Row>
+                                               <Row>
+                                                   <Card.Text>
+                                                       {advertisement.voivodeship}, {advertisement.city}, {advertisement.street}
+                                                   </Card.Text>
+                                               </Row>
+                                               <Row>
+                                                   <Card.Text>
+                                                       From: {start}
+                                                   </Card.Text>
+                                               </Row>
+                                               <Row>
+                                                   <Card.Text>
+                                                       To: {stop}
+                                                   </Card.Text>
+                                               </Row>
+                                               <Row>
+                                                   <Card.Text>
+                                                       Reserved by: {who}
+                                                   </Card.Text>
+                                               </Row>
+                                           </Col>
+                                           <Col md={4} >
+                                               <Container>
+                                                   <Row>
+                                                       <Button variant="outline-danger" className="mb-3"
+                                                               onClick={e => this.delete(e)}>
+                                                           Delete
+                                                       </Button>
+                                                   </Row>
+                                               </Container>
+                                           </Col>
+                                       </Row>
+                                   </Card.Body>
+                               </Col>
+                           </Row>
+                       </Card>
+                   </>
+
                 )
             })
         }
@@ -132,7 +254,10 @@ export default class Profile extends Component{
                         <h2>Hi {this.props.user.name} {this.props.user.surname}</h2>
                     </Container>
                 </Jumbotron>
-                <>{this.renderAdvertisement()}{console.log('test')}</>
+                <h2>Your reservations</h2>
+                <>{this.renderReservation()}</>
+                <h2>Your advertisements</h2>
+                <>{this.renderAdvertisement()}</>
             </Container>
         );
     }
