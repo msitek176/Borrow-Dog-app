@@ -1,7 +1,90 @@
 import React, {Component} from 'react';
 import {Button, Col, Container, Image, Jumbotron, Row, Card, Table, Carousel} from "react-bootstrap";
+import axios from "axios";
 
 export default class Profile extends Component{
+    state={};
+
+    componentDidMount = () => {
+        console.log("ID",localStorage.getItem("id"))
+        const id = localStorage.getItem("id")
+        axios.get(`api/advertisements/${id}`).then(
+            res => {
+                this.setState({
+                    advertisements:res.data
+                });
+                console.log(this.state.advertisements);
+            },
+            err => {
+                console.log(err)
+            }
+        );
+    }
+    renderAdvertisement = () => {
+        if(this.state.advertisements !== undefined){
+            return this.state.advertisements.map((advertisement)=>
+            {
+                let start = advertisement.start.replace('T',', ');
+                let stop = advertisement.stop.replace('T',', ');
+                let imageURL= './uploads/'+advertisement.image;
+                return (
+                    <Card className="advertisement" id={advertisement.advertisement.id_advertisement}>
+                        <Row >
+                            <Col md={3}>
+                                <Card.Img variant="top" src={imageURL} height={"190em"}  />
+                            </Col>
+                            <Col md={9}>
+                                <Card.Body >
+                                    <Row>
+                                        <Col md={8}>
+                                            <Row>
+                                                <Card.Title>{advertisement.dog_name}, {advertisement.breed}</Card.Title>
+                                            </Row>
+                                            <Row>
+                                                <Card.Text>
+                                                    {advertisement.description}
+                                                </Card.Text>
+                                            </Row>
+                                            <Row>
+                                                <Card.Text>
+                                                    {advertisement.voivodeship}, {advertisement.city}, {advertisement.street}
+                                                </Card.Text>
+                                            </Row>
+                                            <Row>
+                                                <Card.Text>
+                                                    From: {start}
+                                                </Card.Text>
+                                            </Row>
+                                            <Row>
+                                                <Card.Text>
+                                                    To: {stop}
+                                                </Card.Text>
+                                            </Row>
+                                        </Col>
+                                        <Col md={4} >
+                                            <Container>
+                                                <Row>
+                                                    <Button variant="warning" className="mb-3">Reserve</Button>
+                                                </Row>
+                                                <Row>
+                                                    <Button variant="success" className="mb-3">Success</Button>
+                                                </Row>
+                                                <Row>
+                                                    <Button variant="danger" >Decline</Button>
+                                                </Row>
+                                            </Container>
+                                        </Col>
+                                    </Row>
+                                </Card.Body>
+                            </Col>
+                        </Row>
+                    </Card>
+                )
+            })
+        }
+
+
+    }
 
     render(){
 
@@ -49,24 +132,7 @@ export default class Profile extends Component{
                         <h2>Hi {this.props.user.name} {this.props.user.surname}</h2>
                     </Container>
                 </Jumbotron>
-                <Card className="border border-light bg-white text-black">
-                    <Card.Header>Your advertisements</Card.Header>
-                    <Card.Body>
-                        <Table border hover striped varient="light">
-                            <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Day & hour</th>
-                                <th>Reserved by</th>
-                                <th>Note</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </Table>
-                    </Card.Body>
-                </Card>
+                <>{this.renderAdvertisement()}{console.log('test')}</>
             </Container>
         );
     }
