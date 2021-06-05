@@ -1,6 +1,8 @@
 package pl.mateuszsitek.DogGo.model;
 
 import lombok.Data;
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import javax.persistence.*;
 
 @Data
@@ -15,6 +17,7 @@ public class UserDetails {
     private String about;
     private String city;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name="user_id", referencedColumnName = "id")
     private User users;

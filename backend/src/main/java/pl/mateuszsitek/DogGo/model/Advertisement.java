@@ -1,7 +1,11 @@
 package pl.mateuszsitek.DogGo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sun.istack.NotNull;
 import lombok.Data;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
 import javax.persistence.*;
 
 @Data
@@ -12,6 +16,7 @@ public class Advertisement {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id_advertisement;
 
+    @JsonManagedReference
     @NotNull
     @ManyToOne
     @JoinColumn(name = "fk_id_user")
@@ -20,9 +25,11 @@ public class Advertisement {
     @NotNull
     private String created_at;
 
+    @JsonBackReference
     @OneToOne(mappedBy = "advertisement")
     private AdvertisementDetails advertisementDetails;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "advertisement")
     private Reservation reservation;
 
@@ -34,4 +41,14 @@ public class Advertisement {
         this.created_at = created_at;
     }
 
+    @Override
+    public String toString() {
+        return "Advertisement{" +
+                "id_advertisement=" + id_advertisement +
+                ", users=" + users.toString() +
+                ", created_at='" + created_at + '\'' +
+                ", advertisementDetails=" + advertisementDetails.toString() +
+                ", reservation=" + reservation +
+                '}';
+    }
 }

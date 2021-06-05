@@ -1,7 +1,12 @@
 package pl.mateuszsitek.DogGo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.sun.istack.NotNull;
 import lombok.Data;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,6 +25,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(	name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -45,9 +51,11 @@ public class User {
     @Column(columnDefinition = "boolean default true")
     private Boolean enabled;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "users")
     private UserDetails userDetails;
 
+    @JsonIgnore
     @OneToMany(
             mappedBy = "users",
             cascade = CascadeType.ALL,
@@ -55,6 +63,7 @@ public class User {
     )
     private List<Dog> dogs = new ArrayList<>();
 
+    @JsonBackReference
     @OneToMany(
             mappedBy = "users",
             cascade = CascadeType.ALL,
@@ -62,6 +71,7 @@ public class User {
     )
     private List<Advertisement> advertisement = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(
             mappedBy = "users",
             cascade = CascadeType.ALL,

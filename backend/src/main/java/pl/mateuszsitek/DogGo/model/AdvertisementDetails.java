@@ -1,7 +1,12 @@
 package pl.mateuszsitek.DogGo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sun.istack.NotNull;
 import lombok.Data;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
 import javax.persistence.*;
 
 @Data
@@ -40,9 +45,7 @@ public class AdvertisementDetails {
     @NotNull
     private String image;
 
-    @NotNull
-    private String type;
-
+    @JsonManagedReference
     @OneToOne
     @JoinColumn(name="advertisement_id", referencedColumnName = "id_advertisement")
     private Advertisement advertisement;
@@ -50,7 +53,7 @@ public class AdvertisementDetails {
     public AdvertisementDetails(){
     }
 
-    public AdvertisementDetails(String dog_name, String breed, String description, String city, String voivodeship, String street, String start, String stop, String image, String type) {
+    public AdvertisementDetails(String dog_name, String breed, String description, String city, String voivodeship, String street, String start, String stop, String image, Advertisement advertisement) {
         this.dog_name = dog_name;
         this.breed = breed;
         this.description = description;
@@ -60,7 +63,24 @@ public class AdvertisementDetails {
         this.start = start;
         this.stop = stop;
         this.image = image;
-        this.type = type;
+        this.advertisement = advertisement;
+
     }
 
+    @Override
+    public String toString() {
+        return "AdvertisementDetails{" +
+                "id_advertisement_details=" + id_advertisement_details +
+                ", dog_name='" + dog_name + '\'' +
+                ", breed='" + breed + '\'' +
+                ", description='" + description + '\'' +
+                ", city='" + city + '\'' +
+                ", voivodeship='" + voivodeship + '\'' +
+                ", street='" + street + '\'' +
+                ", start='" + start + '\'' +
+                ", stop='" + stop + '\'' +
+                ", image='" + image + '\'' +
+                ", advertisement=" + advertisement.toString() +
+                '}';
+    }
 }

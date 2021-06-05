@@ -2,6 +2,8 @@ package pl.mateuszsitek.DogGo.model;
 
 import com.sun.istack.NotNull;
 import lombok.Data;
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import javax.persistence.*;
 
 @Data
@@ -11,10 +13,12 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id_reservation;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name="advertisement_id", referencedColumnName = "id_advertisement")
     private Advertisement advertisement;
 
+    @JsonIgnore
     @NotNull
     @ManyToOne
     @JoinColumn(name = "fk_id_borrower")
