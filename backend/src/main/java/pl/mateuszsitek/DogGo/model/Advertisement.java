@@ -29,7 +29,7 @@ public class Advertisement {
     @OneToOne(mappedBy = "advertisement")
     private AdvertisementDetails advertisementDetails;
 
-    @JsonIgnore
+    @JsonManagedReference
     @OneToOne(mappedBy = "advertisement")
     private Reservation reservation;
 

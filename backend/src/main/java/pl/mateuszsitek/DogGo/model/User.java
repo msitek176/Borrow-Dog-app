@@ -71,7 +71,7 @@ public class User {
     )
     private List<Advertisement> advertisement = new ArrayList<>();
 
-    @JsonIgnore
+    @JsonBackReference
     @OneToMany(
             mappedBy = "users",
             cascade = CascadeType.ALL,

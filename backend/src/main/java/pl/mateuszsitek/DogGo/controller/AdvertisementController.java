@@ -1,32 +1,27 @@
 package pl.mateuszsitek.DogGo.controller;
 
 
-import org.aspectj.weaver.patterns.IToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import pl.mateuszsitek.DogGo.model.Advertisement;
 import pl.mateuszsitek.DogGo.model.AdvertisementDetails;
+import pl.mateuszsitek.DogGo.model.Reservation;
 import pl.mateuszsitek.DogGo.model.User;
-import pl.mateuszsitek.DogGo.model.UserDetails;
 import pl.mateuszsitek.DogGo.payload.request.FormRequest;
 import pl.mateuszsitek.DogGo.payload.response.MessageResponse;
 import pl.mateuszsitek.DogGo.repository.AdvertisementDetailsRepo;
 import pl.mateuszsitek.DogGo.repository.AdvertisementRepo;
+import pl.mateuszsitek.DogGo.repository.ReservationRepo;
 import pl.mateuszsitek.DogGo.repository.UserRepo;
 
-import javax.xml.crypto.Data;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 @CrossOrigin("*")
 @RestController
@@ -40,6 +35,9 @@ public class AdvertisementController {
 
     @Autowired
     UserRepo userRepo;
+
+    @Autowired
+    ReservationRepo reservationRepo;
 /*
     User currentUser = new User();
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -89,9 +87,17 @@ public class AdvertisementController {
 
     }
 
-    @GetMapping("/advertisements")
-    public List<AdvertisementDetails> getAllAdvertisements(){
-        return advertisementDetailsRepo.findAll();
+    @GetMapping("/advertisementsOthers/{id}")
+    public List<AdvertisementDetails> getAdvertisementsOthers(@PathVariable int id){
+        List <AdvertisementDetails> advertisementDetailsList = new ArrayList<AdvertisementDetails>();
+
+        List <Long> idAdvertisement = new ArrayList<Long>();
+
+        advertisementRepo.findAll().forEach(el -> {if(el.getUsers().getId()!=id && (((reservationRepo.findAll().stream().filter(reserv -> reserv.getAdvertisement().getId_advertisement()== el.getId_advertisement()).findAny()).stream().count() >0) ? false : true)) idAdvertisement.add(el.getId_advertisement()); });
+        advertisementDetailsRepo.findAll().forEach(el -> {if(idAdvertisement.contains(el.getAdvertisement().getId_advertisement()))
+        {advertisementDetailsList.add(el);}});
+
+        return advertisementDetailsList;
     }
 
     @GetMapping("/advertisements/{id}")
@@ -105,5 +111,29 @@ public class AdvertisementController {
 
         return advertisementDetailsList;
     }
+
+    @DeleteMapping("/advertisement/{id}")
+    public ResponseEntity<?> deleteAdvertisement(@PathVariable int id){
+        List <AdvertisementDetails> advertisementDetailsList = new ArrayList<>();
+         advertisementDetailsRepo.findAll().forEach(el -> {
+             System.out.println("ID AD:" + el.getAdvertisement().getId_advertisement());
+         if(el.getAdvertisement().getId_advertisement() == id){
+             System.out.println("TEST:"+ el.getAdvertisement().getId_advertisement());
+            advertisementDetailsList.add(el);
+
+        }});
+
+        List <Reservation> reservationToDeleteList = new ArrayList<>();
+        reservationRepo.findAll().forEach(el -> {
+            if(el.getAdvertisement().getId_advertisement() == id)
+                reservationToDeleteList.add(el);
+        });
+
+        reservationRepo.delete(reservationToDeleteList.get(0));
+        advertisementDetailsRepo.delete(advertisementDetailsList.get(0));
+        advertisementRepo.delete(advertisementRepo.getOne((long) id));
+        return ResponseEntity.ok(new MessageResponse("Advertisement delete successfully!"));
+    }
+
 
 }
