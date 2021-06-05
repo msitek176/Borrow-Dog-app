@@ -48,7 +48,9 @@ export default class Borrow extends Component{
                     <Card className="advertisement" id={advertisement.advertisement.id_advertisement}>
                         <Row >
                             <Col md={3}>
-                                <Card.Img variant="top" src={imageURL} height={"170em"}  />
+                                <div className="overflow">
+                                    <Card.Img variant="top" src={imageURL} height={"170em"} className="img-scale" />
+                                </div>
                             </Col>
                             <Col md={9}>
                                 <Card.Body >

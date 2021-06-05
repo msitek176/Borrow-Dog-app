@@ -17,22 +17,36 @@ public class Dog {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id_dog;
 
-    @JsonIgnore
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "fk_id_author")
-    private User users;
+    private String lifetime;
 
     @NotNull
     private String title;
 
     @NotNull
-    private String description;
+    private String origin;
 
-    public Dog(User users, String title, String description) {
-        this.users = users;
-        this.title = title;
-        this.description = description;
+    @NotNull
+    private String character;
+
+    @NotNull
+    private String weight;
+
+    @NotNull
+    private String height;
+
+    @NotNull
+    private String imageURL;
+
+    public Dog(Long id_dog, String lifetime, String origin, String character, String weight, String height,String imageURL, String title) {
+        this.id_dog = id_dog;
+        this.lifetime = lifetime;
+        this.origin = origin;
+        this.character = character;
+        this.weight = weight;
+        this.height = height;
+        this.imageURL = imageURL;
+        this.title=title;
     }
 
     public Dog(){

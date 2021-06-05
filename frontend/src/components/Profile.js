@@ -73,7 +73,9 @@ export default class Profile extends Component{
                         <Card className="advertisement" id={reservation.advertisement.id_advertisement}>
                             <Row >
                                 <Col md={3}>
-                                    <Card.Img variant="top" src={imageURL} height={"190em"}  />
+                                    <div className="overflow">
+                                        <Card.Img variant="top" src={imageURL} height={"190em"}  className="img-scale"/>
+                                    </div>
                                 </Col>
                                 <Col md={9}>
                                     <Card.Body >
@@ -149,7 +151,9 @@ export default class Profile extends Component{
                        <Card className="advertisement" id={advertisement.advertisement.id_advertisement}>
                            <Row >
                                <Col md={3}>
-                                   <Card.Img variant="top" src={imageURL} height={"190em"}  />
+                                   <div className="overflow">
+                                       <Card.Img variant="top" src={imageURL} height={"190em"} className="img-scale"/>
+                                   </div>
                                </Col>
                                <Col md={9}>
                                    <Card.Body >

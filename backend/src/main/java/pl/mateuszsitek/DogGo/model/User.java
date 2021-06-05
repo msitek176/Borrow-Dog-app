@@ -55,13 +55,6 @@ public class User {
     @OneToOne(mappedBy = "users")
     private UserDetails userDetails;
 
-    @JsonIgnore
-    @OneToMany(
-            mappedBy = "users",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<Dog> dogs = new ArrayList<>();
 
     @JsonBackReference
     @OneToMany(
