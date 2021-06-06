@@ -10,7 +10,6 @@ import pl.mateuszsitek.DogGo.repository.AdvertisementDetailsRepo;
 import pl.mateuszsitek.DogGo.repository.AdvertisementRepo;
 import pl.mateuszsitek.DogGo.repository.ReservationRepo;
 import pl.mateuszsitek.DogGo.repository.UserRepo;
-
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -76,10 +75,6 @@ public class ReservationController {
         reservationRepo.delete(reservationToCancel.get(0));
 
         return ResponseEntity.ok(new MessageResponse("Cancel reservation successfully!"));
-
     }
-
-
-
 
 }

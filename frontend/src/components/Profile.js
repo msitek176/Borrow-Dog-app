@@ -1,47 +1,55 @@
 import React, {Component} from 'react';
-import {Button, Col, Container, Image, Jumbotron, Row, Card, Table, Carousel} from "react-bootstrap";
+import {Button, Col, Container, Jumbotron, Row, Card, Carousel} from "react-bootstrap";
 import axios from "axios";
+import {Redirect} from "react-router";
 
 export default class Profile extends Component{
     state={};
 
     delete = (e) => {
         const id = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.id;
-        console.log(id);
         axios.delete(`http://localhost:9000/api/advertisement/${id}`).then(
             res => {
-                console.log("USUNIETE")
+                console.log(res)
+                alert('Advertisement deleted successfully');
             },
             err =>{
                 console.log(err)
             }
         );
-
+        this.setState({
+                advertisements:this.state.advertisements.filter(el => el.advertisement.id_advertisement != id)
+            }
+        )
     }
 
     cancel = (e) => {
         const id = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.id;
-        console.log(id);
         axios.delete(`http://localhost:9000/api/my_reservations/${id}`).then(
             res => {
                 console.log(res)
+                alert('Reservation canceled successfully!');
+
             },
             err =>{
                 console.log(err)
             }
         );
+        this.setState({
+            reservations:this.state.reservations.filter(el => el.advertisement.id_advertisement != id)
+            }
+        )
 
     }
 
     componentDidMount = () => {
-        console.log("ID",localStorage.getItem("id"))
         const id = localStorage.getItem("id")
         axios.get(`api/advertisements/${id}`).then(
             res => {
                 this.setState({
                     advertisements:res.data
                 });
-                console.log(this.state.advertisements);
+                console.log(res);
             },
             err => {
                 console.log(err)
@@ -53,7 +61,7 @@ export default class Profile extends Component{
                 this.setState({
                     reservations:res.data
                 });
-                console.log("ZAREZEROWANE",this.state.reservations);
+                console.log(res);
             },
             err => {
                 console.log(err)
@@ -64,7 +72,7 @@ export default class Profile extends Component{
         if(this.state.reservations !== undefined){
             return this.state.reservations.map((reservation)=>
             {
-                let who = reservation.advertisement.users.email;
+                let who = reservation.advertisement.users.email+" Phone number: "+reservation.advertisement.users.phone_number;
                 let start = reservation.start.replace('T',', ');
                 let stop = reservation.stop.replace('T',', ');
                 let imageURL= './uploads/'+reservation.image;
@@ -126,12 +134,9 @@ export default class Profile extends Component{
                             </Row>
                         </Card>
                     </>
-
                 )
             })
         }
-
-
     }
 
 
@@ -139,12 +144,13 @@ export default class Profile extends Component{
         if(this.state.advertisements !== undefined){
             return this.state.advertisements.map((advertisement)=>
             {
+
                 let who = ""
                 let start = advertisement.start.replace('T',', ');
                 let stop = advertisement.stop.replace('T',', ');
                 let imageURL= './uploads/'+advertisement.image;
                 if(advertisement.advertisement.reservation !== null){
-                    who = advertisement.advertisement.reservation.users.email;
+                    who = advertisement.advertisement.reservation.users.email+" Phone number: "+advertisement.advertisement.reservation.users.phone_number;
                 }
                 return (
                    <>
@@ -213,7 +219,6 @@ export default class Profile extends Component{
     }
 
     render(){
-
         if(this.props.user){
             return(
             <Container>
@@ -222,35 +227,23 @@ export default class Profile extends Component{
                     <Carousel.Item interval={1000}>
                         <img
                             className="d-block w-100 slider"
-                            src="slider.jpg"
+                            src="slider1.jpg"
                             alt="First slide"
                         />
-                        <Carousel.Caption>
-                            <h3>First slide label</h3>
-                            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                        </Carousel.Caption>
                     </Carousel.Item>
                     <Carousel.Item interval={500}>
                         <img
                             className="d-block w-100"
-                            src="slider.jpg"
+                            src="slider2.jpg"
                             alt="Second slide"
                         />
-                        <Carousel.Caption>
-                            <h3>Second slide label</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        </Carousel.Caption>
                     </Carousel.Item>
                     <Carousel.Item>
                         <img
                             className="d-block w-100"
-                            src="slider.jpg"
+                            src="slider3.jpg"
                             alt="Third slide"
                         />
-                        <Carousel.Caption>
-                            <h3>Third slide label</h3>
-                            <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-                        </Carousel.Caption>
                     </Carousel.Item>
                 </Carousel>
                 <Jumbotron className="content">
@@ -258,16 +251,18 @@ export default class Profile extends Component{
                         <h2>Hi {this.props.user.name} {this.props.user.surname}</h2>
                     </Container>
                 </Jumbotron>
-                <h2>Your reservations</h2>
+
+                <h2 className="font-weight-bold">Your reservations</h2>
                 <>{this.renderReservation()}</>
-                <h2>Your advertisements</h2>
+                <h2 className="font-weight-bold mt-3">Your advertisements</h2>
                 <>{this.renderAdvertisement()}</>
             </Container>
         );
     }
         else{
             return(
-            <h2>User not loged in</h2>)
+                <Redirect to="/"/>
+         )
         }
     }
 }

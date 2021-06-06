@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import '../styles/Dogs.css';
-import {Button, Card, CardColumns, Col, Row} from "react-bootstrap";
+import {Card, CardColumns} from "react-bootstrap";
 import axios from "axios";
+import {Redirect} from "react-router";
 
 export default class Dogs extends Component{
     state={};
@@ -12,7 +13,7 @@ export default class Dogs extends Component{
                 this.setState({
                     dogs:res.data
                 });
-                console.log(this.state.dogs);
+                console.log(res);
             },
             err => {
                 console.log(err)
@@ -48,12 +49,17 @@ export default class Dogs extends Component{
         }
     }
 
-
     render(){
-        return(
+        if (this.props.user) {
+            return (
             <CardColumns className="animate__animated animate__fadeInUp" >
                 <>{this.renderDogsList()}</>
             </CardColumns>
-        );
+            );
+        } else {
+            return (
+                <Redirect to="/"/>
+            )
+        }
     }
 }

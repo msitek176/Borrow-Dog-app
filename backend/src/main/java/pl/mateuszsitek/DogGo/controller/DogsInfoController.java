@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.mateuszsitek.DogGo.model.Dog;
 import pl.mateuszsitek.DogGo.repository.DogRepo;
-
 import java.util.List;
 
 @CrossOrigin("*")

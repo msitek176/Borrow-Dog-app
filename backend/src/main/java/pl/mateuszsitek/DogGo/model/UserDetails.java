@@ -2,7 +2,6 @@ package pl.mateuszsitek.DogGo.model;
 
 import lombok.Data;
 import org.codehaus.jackson.annotate.JsonIgnore;
-
 import javax.persistence.*;
 
 @Data

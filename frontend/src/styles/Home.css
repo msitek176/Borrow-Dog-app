@@ -21,9 +21,9 @@
 .empty2{
     display:block;
     visibility: hidden;
-    margin-top: 10em;
+    margin-top: 0em;
     margin-bottom: 3em;
-    height: 10px;
+    height: 1px;
 }
 
 a{
@@ -35,4 +35,28 @@ a:link{
 a:hover
 {
     text-shadow:1px 1px 2px grey !important;
+}
+
+#homeInfo
+{
+    margin-top: 7em;
+}
+
+@media only screen and (max-width: 600px) {
+    #homeInfo
+    {
+        margin-top: 0;
+    }
+
+    .empty{
+        margin-top: 5em;
+        margin-bottom: 4.5em;
+        height: 10px;
+    }
+
+    .empty2{
+        margin-top: 0em;
+        margin-bottom: 0em;
+        height: 1px;
+    }
 }

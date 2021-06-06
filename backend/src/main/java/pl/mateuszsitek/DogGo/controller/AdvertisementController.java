@@ -1,6 +1,5 @@
 package pl.mateuszsitek.DogGo.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,14 +13,12 @@ import pl.mateuszsitek.DogGo.repository.AdvertisementDetailsRepo;
 import pl.mateuszsitek.DogGo.repository.AdvertisementRepo;
 import pl.mateuszsitek.DogGo.repository.ReservationRepo;
 import pl.mateuszsitek.DogGo.repository.UserRepo;
-
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
 @CrossOrigin("*")
 @RestController
@@ -38,28 +35,13 @@ public class AdvertisementController {
 
     @Autowired
     ReservationRepo reservationRepo;
-/*
-    User currentUser = new User();
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-    public void setCurrentUser(Authentication authentication) {
-        authentication = SecurityContextHolder.getContext().getAuthentication();
-        this.currentUser = (User)authentication.getPrincipal();
-    }
-
-    String username = "";
-
-    public void setUsername(User currentUser) {
-        this.username = currentUser.getEmail();
-    }
-*/
     Date date = new Date();
     Format formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
     String currentDate = formatter.format(date);
 
     @PostMapping("/advertisements")
     public ResponseEntity<?> addAdvertisement (@RequestBody FormRequest formRequest) {
-        System.out.println(formRequest);
 
         Optional<User> currentUser = userRepo.findByEmail(formRequest.getEmail());
         User u = currentUser.get();
@@ -68,6 +50,7 @@ public class AdvertisementController {
                 u,
                 currentDate
         );
+
         AdvertisementDetails advertisementDetails = new AdvertisementDetails(
                 formRequest.getDogName(),
                 formRequest.getBreed(),
@@ -80,6 +63,7 @@ public class AdvertisementController {
                 formRequest.getPhoto(),
                 advertisement
         );
+
         advertisementRepo.save(advertisement);
         advertisementDetailsRepo.save(advertisementDetails);
 
@@ -116,9 +100,7 @@ public class AdvertisementController {
     public ResponseEntity<?> deleteAdvertisement(@PathVariable int id){
         List <AdvertisementDetails> advertisementDetailsList = new ArrayList<>();
          advertisementDetailsRepo.findAll().forEach(el -> {
-             System.out.println("ID AD:" + el.getAdvertisement().getId_advertisement());
          if(el.getAdvertisement().getId_advertisement() == id){
-             System.out.println("TEST:"+ el.getAdvertisement().getId_advertisement());
             advertisementDetailsList.add(el);
 
         }});
@@ -129,11 +111,11 @@ public class AdvertisementController {
                 reservationToDeleteList.add(el);
         });
 
-        reservationRepo.delete(reservationToDeleteList.get(0));
+        if (!reservationToDeleteList.isEmpty()) reservationRepo.delete(reservationToDeleteList.get(0));
+
         advertisementDetailsRepo.delete(advertisementDetailsList.get(0));
         advertisementRepo.delete(advertisementRepo.getOne((long) id));
         return ResponseEntity.ok(new MessageResponse("Advertisement delete successfully!"));
     }
-
 
 }

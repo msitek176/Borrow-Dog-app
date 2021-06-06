@@ -1,12 +1,9 @@
 package pl.mateuszsitek.DogGo.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.sun.istack.NotNull;
 import lombok.Data;
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonManagedReference;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;

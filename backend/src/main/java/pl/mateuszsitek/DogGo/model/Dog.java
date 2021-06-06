@@ -2,7 +2,6 @@ package pl.mateuszsitek.DogGo.model;
 
 import com.sun.istack.NotNull;
 import lombok.Data;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import javax.persistence.*;
