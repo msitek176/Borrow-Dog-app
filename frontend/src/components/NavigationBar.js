@@ -17,6 +17,7 @@ export default class NavigationBar extends Component{
             button = null
         }
         return (
+
             <Navbar className="nav" variant="dark" expand="lg">
                 <Navbar.Brand href="/"> <img src="logoapp.png" alt="logo"/></Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />

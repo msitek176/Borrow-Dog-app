@@ -1,3 +1,8 @@
 .advertisement{
     background: rgba(255,255,255,0.75) !important;
+    line-height: 1.4;
 }
+.overflow {
+    border-radius: .25rem;
+}
+

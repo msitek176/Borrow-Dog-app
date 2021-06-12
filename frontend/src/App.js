@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import './styles/App.css';
 
-import {Container, Row, Col} from 'react-bootstrap';
-import {BrowserRouter as Router, Switch, Route, BrowserRouter} from "react-router-dom";
-
+import {Container, Row, Col, ModalFooter} from 'react-bootstrap';
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import NavigationBar from './components/NavigationBar';
 import Home from "./components/Home";
 import Profile from "./components/Profile";
@@ -42,7 +41,7 @@ render(){
     };
       return (
         <div className="App Background" >
-            <div className="Background-content">
+            <div className="Background-content vh-100">
                 <Router>
                     <NavigationBar user={this.state.user}/>
                     <Container>

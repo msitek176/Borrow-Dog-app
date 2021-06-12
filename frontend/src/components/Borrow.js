@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 import '../styles/Borrow.css';
-import {Button, Card, Col, Container, Row} from "react-bootstrap";
+import {Button, Card, Col, Container, Row, Form, FormControl, Spinner, Modal} from "react-bootstrap";
 import axios from "axios";
 import {Redirect} from "react-router";
 
 export default class Borrow extends Component {
 
-    state = {};
+    state = {
+        loading:true,
+    };
 
     reserve = (e) => {
         const id_user = localStorage.getItem("id")
@@ -29,8 +31,7 @@ export default class Borrow extends Component {
         const id = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.id;
         axios.delete(`http://localhost:9000/api/advertisement/${id}`).then(
             res => {
-                alert('Advertisement deleted successfully!');
-
+                alert("Advertisement deleted successfully!")
             },
             err =>{
                 console.log(err)
@@ -43,7 +44,7 @@ export default class Borrow extends Component {
     }
 
     isAdmin = () => {
-        if(localStorage.getItem("roles")=="ROLE_ADMIN"){
+        if(localStorage.getItem("roles")==="ROLE_ADMIN"){
             return (
                     <Button variant="outline-danger" style={{width:10 +'em'}} onClick={e => this.delete(e)}>Delete</Button>
             )
@@ -52,11 +53,13 @@ export default class Borrow extends Component {
 
     componentDidMount = () => {
         const id = localStorage.getItem("id")
+        this.setState({loading:true})
         axios.get(`api/advertisementsOthers/${id}`).then(
             res => {
                 console.log(res)
                 this.setState({
-                    advertisements: res.data
+                    advertisements: res.data,
+                    loading: false
                 });
             },
             err => {
@@ -65,9 +68,30 @@ export default class Borrow extends Component {
         );
     }
 
+    search = (e) => {
+        this.setState({
+            filteredAdvertisements:this.state.advertisements.filter(el => (Object.keys(el).some(k =>  el[k].toString().toLowerCase().includes(e.target.value.toLowerCase()))))
+        })
+    }
+
+    loading = () => {
+        if (this.state.loading)
+        {
+            return(
+                <Spinner animation="border" role="status">
+                    <span className="sr-only">Loading...</span>
+                </Spinner>
+            )
+        }
+    }
+
     renderAdvertisement = () => {
         if (this.state.advertisements !== undefined) {
-            return this.state.advertisements.map((advertisement) => {
+            let advertisements = this.state.advertisements
+
+            if(this.state.filteredAdvertisements !== undefined) {advertisements= this.state.filteredAdvertisements}
+
+            return advertisements.map((advertisement) => {
                 let start = advertisement.start.replace('T', ', ');
                 let stop = advertisement.stop.replace('T', ', ');
                 let imageURL = './uploads/' + advertisement.image;
@@ -134,6 +158,18 @@ export default class Borrow extends Component {
         if (this.props.user) {
             return (
                 <Container>
+                    {/* eslint-disable-next-line react/jsx-no-undef */}
+                    <Form className="d-flex mb-3">
+                        {/* eslint-disable-next-line react/jsx-no-undef */}
+                        <FormControl
+                            type="search"
+                            placeholder="Search"
+                            aria-label="Search"
+                            onChange={e => this.search(e)}
+                        />
+
+                    </Form>
+                    {this.loading()}
                     <>{this.renderAdvertisement()}</>
                 </Container>
             );

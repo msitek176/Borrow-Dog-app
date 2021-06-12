@@ -29,7 +29,8 @@ export default class Login extends Component{
        setTimeout(
             () => this.setState(
                 // eslint-disable-next-line no-restricted-globals
-                location.reload()
+                location.reload(),
+                window.location.assign("/")
                 ),
             1000
         )

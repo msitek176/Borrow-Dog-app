@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import '../styles/App.css';
-import {Card, Form, Col} from 'react-bootstrap';
+import {Card, Form, Col, Modal, Button} from 'react-bootstrap';
 import axios from "axios";
 import {Redirect} from "react-router";
 
@@ -50,11 +50,13 @@ export default class Lent extends Component {
         )
         document.getElementById("advertisementForm").reset();
         document.getElementById("dataForm").reset();
-
     }
 
     render() {
+
         if (this.props.user) {
+            let currentDate=new Date().toISOString().split("T")
+            currentDate = currentDate[0] + 'T' + currentDate[1].split(':')[0] + ':' + currentDate[1].split(':')[1]
             return (
                 <Card className="form" >
                     <Card.Header>Add advertisement</Card.Header>
@@ -101,13 +103,32 @@ export default class Lent extends Component {
                             </Form.Row>
 
                             <form className="gap" id="dataForm">
-                                <label for="from">From</label>
+                                <div className="container mb-4">
+                                    <div className="row d-flex justify-content-center mb-3 ">
+                                        <div className="container">
+                                            <div className="row d-flex justify-content-center">
+                                                <label htmlFor="from">From</label>
 
-                                <input id="from" className="form-border" type="datetime-local"
-                                       onChange={e => this.from = e.target.value} required/>
-                                <label for="to">To</label>
-                                <input id="to" className="form-border" type="datetime-local"
-                                       onChange={e => this.to = e.target.value} required/>
+                                            </div>
+                                            <div className="row d-flex justify-content-center">
+                                                <input id="from" className="form-border col-md-4" type="datetime-local" min={currentDate}
+                                                       onChange={e => this.from = e.target.value} required/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="row d-flex justify-content-center">
+                                        <div className="container">
+                                            <div className="row d-flex justify-content-center">
+                                                <label htmlFor="to">To</label>
+                                            </div>
+                                            <div className="row d-flex justify-content-center">
+                                                <input id="to" className="form-border col-md-4" type="datetime-local" min = {currentDate}
+                                                       onChange={e => this.to = e.target.value} required/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </form>
 
                             <div className="col-md-12 col-md-offset-3 mb-3">
@@ -126,6 +147,7 @@ export default class Lent extends Component {
                     </Card.Body>
                 </Card>
             );
+
         } else {
             return (
                 <Redirect to="/"/>

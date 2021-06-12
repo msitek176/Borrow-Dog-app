@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import '../styles/Home.css';
 import {Jumbotron, Col, Container, Image, Row} from "react-bootstrap";
 import {Link} from "react-router-dom";
+import ScrollUpButton from "react-scroll-up-button";
 
 export default class Home extends Component{
 
@@ -18,9 +19,10 @@ export default class Home extends Component{
     }
 
     render(){
+
         return(
             <Col>
-                <Jumbotron className="content" id="homeInfo">
+                <Jumbotron className="content rounded-top" id="homeInfo">
                     <Container>
                         <Row>
                             <Col xs={12} md={3}>
@@ -37,7 +39,7 @@ export default class Home extends Component{
                     </Container>
                 </Jumbotron>
                 <div id="about" className="empty"></div>
-                <Jumbotron className="content font-weight-bold " >
+                <Jumbotron className="content font-weight-bold rounded-top" >
                     <div >
                         <h3>
                             Web application for dog lovers. The app allows dog owners to post advertisement about posibility taking their pets for a walk.
@@ -46,9 +48,10 @@ export default class Home extends Component{
                         </h3>
                     </div>
                 </Jumbotron>
+                <ScrollUpButton />
                 <div  className="empty"></div>
                 <div id="instruction" className="empty2"></div>
-                <Jumbotron className="content font-weight-bold">
+                <Jumbotron className="content font-weight-bold rounded-top">
                         <div >
                             <h2 className="font-weight-bold">If you want to borrow a dog...</h2>
                             <h3>

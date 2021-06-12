@@ -226,21 +226,21 @@ export default class Profile extends Component{
                 <Carousel>
                     <Carousel.Item interval={1000}>
                         <img
-                            className="d-block w-100 slider"
+                            className="d-block w-100 slider rounded-top"
                             src="slider1.jpg"
                             alt="First slide"
                         />
                     </Carousel.Item>
                     <Carousel.Item interval={500}>
                         <img
-                            className="d-block w-100"
+                            className="d-block w-100 rounded-top"
                             src="slider2.jpg"
                             alt="Second slide"
                         />
                     </Carousel.Item>
                     <Carousel.Item>
                         <img
-                            className="d-block w-100"
+                            className="d-block w-100 rounded-top"
                             src="slider3.jpg"
                             alt="Third slide"
                         />

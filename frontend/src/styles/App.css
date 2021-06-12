@@ -119,3 +119,7 @@
   position:relative;
   top:1px;
 }
+
+input[type="datetime-local"] {
+  height: 2.3em;
+}
